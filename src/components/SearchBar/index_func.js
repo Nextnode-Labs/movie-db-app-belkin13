@@ -1,19 +1,21 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 //Image
 import searchIcon from '../../images/search-icon.svg';
 //Styles
 import { Wrapper, Content } from './SearchBar.styles';
 
-class SearchBar extends Component {
+const SearchBar = ({ setSearchTerm }) => {
 
-    state = { value: '' };
-    timeout = null;
+    const [state, setState] = useState('');
+    const initial = useRef(true);
 
-    componentDidUpdate(_prepProps, prevState) {
-        
-    }
+    useEffect(() => {
 
+        if (initial.current) {
+            initial.current = false;
+            return;
+        }
 
         const timer = setTimeout(()=> {
             setSearchTerm(state);
@@ -21,7 +23,7 @@ class SearchBar extends Component {
 
         return () => clearTimeout(timer);
 
-
+    },[setSearchTerm, state]);
 
     return (
         <Wrapper>
@@ -35,7 +37,7 @@ class SearchBar extends Component {
                   />
             </Content>
         </Wrapper>
-    
+    )
 }
 
 SearchBar.propTypes = {
